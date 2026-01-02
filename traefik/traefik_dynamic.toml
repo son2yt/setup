@@ -1,0 +1,18 @@
+[http.middlewares.simpleAuth.basicAuth]
+  users = [
+    "admin:MUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDAR"
+  ]
+
+[http.middlewares]
+  [http.middlewares.redirect-www-to-main.redirectregex]
+      permanent = true
+      regex = "^https?://www\\.(.+)"
+      replacement = "https://${1}"
+
+[http.routers.api]
+  rule = "Host(`MUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDAR`)"
+  entrypoints = ["websecure"]
+  middlewares = ["simpleAuth"]
+  service = "api@internal"
+  [http.routers.api.tls]
+    certResolver = "lets-encrypt"
