@@ -1,0 +1,40 @@
+[entryPoints]
+  [entryPoints.web]
+    address = ":80"
+
+    [entryPoints.web.http]
+      [entryPoints.web.http.redirections]
+        [entryPoints.web.http.redirections.entryPoint]
+          to = "websecure"
+          scheme = "https"
+
+  [entryPoints.websecure]
+    address = ":443"
+
+[log]
+  level = "WARN"
+
+[accessLog]
+  fields.names.StartUTC = "drop"
+
+[metrics]
+  [metrics.prometheus]
+    addEntryPointsLabels = true
+    addServicesLabels = true
+    addRoutersLabels = true
+
+[api]
+  dashboard = true
+
+[certificatesResolvers.lets-encrypt.acme]
+  email = "MUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDAR"
+  storage = "acme.json"
+  [certificatesResolvers.lets-encrypt.acme.httpChallenge]
+    entryPoint = "web"
+
+[providers.docker]
+  watch = true
+  network = "web"
+
+[providers.file]
+  filename = "traefik_dynamic.toml"
